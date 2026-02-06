@@ -1,6 +1,8 @@
 #include "iGraphics.h"
 
 int gameState = 0;
+bool vol = true;
+int logo, newgamebut, continuebut, volon, voloff, scores, levelbut;
 
 void iDraw()
 {
@@ -8,26 +10,43 @@ void iDraw()
 
 	if (gameState == 0) {
 		// --- DRAW MAIN MENU ---
-		iSetColor(180, 110, 80); // Background Brown
+		iSetColor(30, 30, 30); // Background Brown
 		iFilledRectangle(0, 0, 1080, 600);
 
 		iSetColor(255, 255, 255); // White for boxes
 
 		// Logo (Top Center)
-		iRectangle(390, 450, 300, 160);
-		iText(520, 525, "Logo");
+		//iRectangle(390, 450, 300, 160);
+		//iText(520, 525, "Logo");
+		//iShowBMP(390, 450, "logo1.bmp");
+		iShowImage(390, 325, 300, 300, logo);
 
 		// Name Box (Middle)
-		iRectangle(390, 375, 300, 70);
-		iText(520, 405, "RageRush");
+		//iRectangle(390, 375, 300, 70);
+		//iText(520, 405, "RageRush");
 
 		// "Con" Button (Bottom Left)
-		iRectangle(215, 250, 240, 80);
-		iText(320, 285, "Continue");
+		//iRectangle(215, 250, 240, 80);
+		//iText(320, 285, "Continue");
+		iShowImage(285, 255, 215, 65, continuebut);
 
 		// "New Game" Button (Bottom Right)
-		iRectangle(550, 250, 240, 80);
-		iText(620, 285, "New Game");
+		//iRectangle(550, 250, 240, 80);
+		//iText(620, 285, "New Game");
+		iShowImage(580, 250, 240, 80, newgamebut);
+
+		//score button
+		iShowImage(440, 165, 180, 95, scores);
+
+		//levels button
+		iShowImage(440, 90, 180, 95, levelbut);
+
+		if (vol) {
+			iShowImage(0, 0, 70, 70, volon);
+		}
+		else {
+			iShowImage(0, 0, 70, 70, voloff);
+		}
 	}
 	else if (gameState == 1) {
 		// --- DRAW LEVEL 1 PAGE ---
@@ -74,6 +93,13 @@ void iMouse(int button, int state, int mx, int my)
 				// Logic for "Registering new player"
 				printf("New Player Registered. Loading Level 1...\n");
 			}
+
+			//changing volume
+			if (mx >= 0 && my >= 0 && mx <= 70 && my <= 70) {
+				vol = !vol;
+
+				
+			}
 		}
 		
 	}
@@ -114,6 +140,16 @@ void fixedUpdate()
 	}
 }
 
+void initImages() {
+	logo = iLoadImage("Images//logo3.png");
+	newgamebut = iLoadImage("Images//newgame.png");
+	continuebut = iLoadImage("Images//continue.png");
+	volon = iLoadImage("Images//volon.png");
+	voloff = iLoadImage("Images//voloff.png");
+	scores = iLoadImage("Images//score2.png");
+	levelbut = iLoadImage("Images//levels.png");
+}
+
 
 int main()
 {
@@ -129,6 +165,9 @@ int main()
 	// mciSendString("close ggsong", NULL, 0, NULL);
 
 	iInitialize(1080, 600, "RageRush");
+
+	initImages();
+
 	iStart();
 	return 0;
 }
